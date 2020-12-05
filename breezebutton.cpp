@@ -183,42 +183,76 @@ void Button::drawIcon(QPainter *painter) const
         QPen pen(foregroundColor);
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::MiterJoin);
-        pen.setWidthF(PenWidth::Symbol * qMax((qreal)1.0, 20 / width));
+        pen.setWidthF(PenWidth::Symbol * qMax((qreal)1.25, 20 / width));
 
         painter->setPen(pen);
         painter->setBrush(Qt::NoBrush);
 
         switch (type()) {
-            // case DecorationButtonType::Maximize:
-            // {
-            //     if( isChecked() )
-            //     {
-            //         pen.setJoinStyle( Qt::RoundJoin );
-            //         painter->setPen( pen );
+        case DecorationButtonType::Close: {
+            if (isHovered()) {
+                painter->drawLine(QPointF(6, 6), QPointF(12, 12));
+                painter->drawLine(QPointF(12, 6), QPointF(6, 12));
+            }
+            break;
+        }
+        case DecorationButtonType::Maximize: {
+            if (isHovered()) {
+                if (isChecked()) {
+                    {
+                        QPainterPath path;
+                        path.moveTo(5, 9);
+                        path.lineTo(9, 9);
+                        path.lineTo(9, 13);
+                        path.lineTo(5, 9);
 
-            //         painter->drawPolygon( QVector<QPointF>{
-            //             QPointF( 4, 9 ),
-            //             QPointF( 9, 4 ),
-            //             QPointF( 14, 9 ),
-            //             QPointF( 9, 14 )} );
+                        painter->setPen(Qt::NoPen);
+                        painter->fillPath(path, foregroundColor);
+                    }
 
-            //     } else {
-            //         painter->drawPolyline( QVector<QPointF>{
-            //             QPointF( 4, 11 ),
-            //             QPointF( 9, 6 ),
-            //             QPointF( 14, 11 )});
-            //     }
-            //     break;
-            // }
+                    {
+                        QPainterPath path;
+                        path.moveTo(9, 5);
+                        path.lineTo(9, 9);
+                        path.lineTo(13, 9);
+                        path.lineTo(9, 5);
 
-            // case DecorationButtonType::Minimize:
-            // {
-            //     painter->drawPolyline( QVector<QPointF>{
-            //         QPointF( 4, 7 ),
-            //         QPointF( 9, 12 ),
-            //         QPointF( 14, 7 ) });
-            //     break;
-            // }
+                        painter->setPen(Qt::NoPen);
+                        painter->fillPath(path, foregroundColor);
+                    }
+                } else {
+                    {
+                        QPainterPath path;
+                        path.moveTo(6, 8);
+                        path.lineTo(6, 12);
+                        path.lineTo(10, 12);
+                        path.lineTo(6, 8);
+
+                        painter->setPen(Qt::NoPen);
+                        painter->fillPath(path, foregroundColor);
+                    }
+
+                    {
+                        QPainterPath path;
+                        path.moveTo(8, 6);
+                        path.lineTo(12, 6);
+                        path.lineTo(12, 10);
+                        path.lineTo(8, 6);
+
+                        painter->setPen(Qt::NoPen);
+                        painter->fillPath(path, foregroundColor);
+                    }
+                }
+            }
+            break;
+        }
+
+        case DecorationButtonType::Minimize: {
+            if (isHovered()) {
+                painter->drawLine(QPointF(5, 9), QPointF(13, 9));
+            }
+            break;
+        }
 
         case DecorationButtonType::OnAllDesktops: {
             painter->setPen(Qt::NoPen);
@@ -308,10 +342,10 @@ QColor Button::foregroundColor() const
     if (!d) {
         return QColor();
 
-    } else if (isPressed()) {
-        return d->titleBarColor();
+    } else if (type() == DecorationButtonType::Close || type() == DecorationButtonType::Minimize || type() == DecorationButtonType::Maximize) {
+        return backgroundColor().darker(175);
 
-    } else if (type() == DecorationButtonType::Close) {
+    } else if (isPressed()) {
         return d->titleBarColor();
 
     } else if ((type() == DecorationButtonType::KeepBelow || type() == DecorationButtonType::KeepAbove || type() == DecorationButtonType::Shade) && isChecked()) {
