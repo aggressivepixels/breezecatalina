@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Description": "Window decoration using the Breeze Catalina visual style for the Plasma Desktop",
+        "Id": "io.aggressivepixels.breezecatalina",
+        "Name": "Breeze Catalina",
+        "ServiceTypes": [
+            "org.kde.kdecoration2"
+        ]
+    },
+    "org.kde.kdecoration2": {
+        "blur": false,
+        "kcmodule": true,
+        "recommendedBorderSize": "None"
+    }
+}
