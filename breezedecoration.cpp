@@ -477,7 +477,7 @@ void Decoration::updateButtonsGeometry()
 
         // padding
         const int vPadding = isTopEdge() ? 0 : s->smallSpacing() * Metrics::TitleBar_TopMargin;
-        const int hPadding = (s->smallSpacing() * 2) * Metrics::TitleBar_SideMargin;
+        const int hPadding = s->smallSpacing() * Metrics::TitleBar_SideMargin * 2;
         if (isLeftEdge()) {
             // add offsets on the side buttons, to preserve padding, but satisfy Fitts law
             auto button = static_cast<Button *>(m_leftButtons->buttons().front().data());
@@ -570,7 +570,7 @@ void Decoration::paintTitleBar(QPainter *painter, const QRect &repaintRegion)
     if (c->isActive() && m_internalSettings->drawBackgroundGradient()) {
         const QColor titleBarColor(this->titleBarColor());
         QLinearGradient gradient(0, 0, 0, titleRect.height());
-        gradient.setColorAt(0.0, titleBarColor.lighter(120));
+        gradient.setColorAt(0.0, titleBarColor.lighter(110));
         gradient.setColorAt(0.8, titleBarColor);
         painter->setBrush(gradient);
 
