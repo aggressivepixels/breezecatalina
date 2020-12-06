@@ -249,7 +249,7 @@ void Button::drawIcon(QPainter *painter) const
 
         case DecorationButtonType::Minimize: {
             if (isHovered()) {
-                painter->drawLine(QPointF(5, 9), QPointF(13, 9));
+                painter->drawLine(QPointF(6, 9), QPointF(12, 9));
             }
             break;
         }
